@@ -32,6 +32,7 @@ header{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 1
 .btn:hover{background:#f2ece2}
 .btn.on{background:var(--ink);color:#fff}
 .btn.chip.on{background:var(--accent-soft);color:var(--accent)}
+#langSel .btn{min-width:32px;font-weight:500}
 .btn.primary{background:var(--accent);color:#fff}
 .btn.primary:hover{background:#9f5530}
 .btn.danger{color:#b3372a}
@@ -277,8 +278,11 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
     </div>
     <div class="grp only3d"><label class="range"><span data-en="Sun">日照</span> <input type="range" id="sun" min="7" max="18" step=".25" value="10" style="width:84px"><span id="sunT">10:00</span></label></div>
     <div class="spacer"></div>
-    <select class="btn" id="langSel" title="Switch language / 切换语言 / 切換語言" style="border:1px solid var(--line);background:#fff;font:inherit;cursor:pointer">
-      <option value="zh">简体</option><option value="zht">繁體</option><option value="en">English</option></select>
+    <div class="grp" id="langSel" role="group" aria-label="Language / 语言">
+      <button class="btn chip" data-lang="zh" title="简体中文">简</button>
+      <button class="btn chip" data-lang="zht" title="繁體中文">繁</button>
+      <button class="btn chip" data-lang="en" title="English">EN</button>
+    </div>
     <button class="btn" id="fullscreen" title="全屏 (Shift+F)" style="border:1px solid var(--line);background:#fff">⛶ 全屏</button>
     <details class="menu"><summary class="btn" data-en="File ▾">文件 ▾</summary>
       <div class="menu-pop">
@@ -376,7 +380,7 @@ function applyStaticLang(){
   document.title = tr('户型装修设计', 'Floor Plan Designer');
   document.querySelectorAll('[data-en]').forEach(el => { el.dataset.zh ??= el.textContent; el.textContent = tr(el.dataset.zh, el.dataset.en); });
   document.querySelectorAll('[data-en-title]').forEach(el => { el.dataset.zhTitle ??= el.title; el.title = tr(el.dataset.zhTitle, el.dataset.enTitle); });
-  document.getElementById('langSel').value = LANG;
+  document.querySelectorAll('#langSel [data-lang]').forEach(b => { const on = b.dataset.lang === LANG; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
 }
 
 /* ============================================================
@@ -1495,7 +1499,7 @@ function setLang(l){
   $('#tip').textContent = TIPS()[viewMode];
   window.View3D?.relang();
 }
-$('#langSel').onchange = e => setLang(e.target.value);
+$('#langSel').onclick = e => { const l = e.target.closest('[data-lang]')?.dataset.lang; if (l && l !== LANG) setLang(l); };
 
 applyStaticLang(); syncFullscreen();
 buildDefs(); buildLib(); renderOpenings(); renderDims();
