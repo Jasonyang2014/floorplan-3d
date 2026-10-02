@@ -80,6 +80,10 @@ python3 -m http.server 8000
 
 改这些数据就能换成自己的户型。
 
+## 社交媒体
+
+- X（Twitter）：[@akokoi1](https://x.com/akokoi1)
+
 ## 许可协议
 
 [MIT](LICENSE)

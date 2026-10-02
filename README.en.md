@@ -80,6 +80,10 @@ The floor plan data lives in `index.html`:
 
 Edit this data to use your own floor plan.
 
+## Social Media
+
+- X (Twitter): [@akokoi1](https://x.com/akokoi1)
+
 ## License
 
 [MIT](LICENSE)
